@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".School_Details">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/txtSchoolTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_2sdp"
+            android:padding="@dimen/_5sdp"
+            android:text="Mahatma Gandhi Vidya Mandir."
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btnSubmit"
+            android:layout_below="@+id/txtSchoolTitle"
+            android:layout_margin="@dimen/_5sdp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_2sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="Type :" />
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:layout_weight="7"
+                            android:background="@drawable/border_rectangle"
+                            android:padding="@dimen/_2sdp">
+
+                            <Spinner
+                                android:id="@+id/spinnerTypes"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:entries="@array/arrayTypes"
+                                android:padding="@dimen/_2sdp" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_margin="@dimen/_2sdp"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:padding="@dimen/_2sdp">-->
+
+                    <!--<TextView-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="3"-->
+                    <!--android:text="Response" />-->
+
+                    <!--<EditText-->
+                    <!--android:id="@+id/txtResponse"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="7"-->
+                    <!--android:background="@drawable/border_rectangle"-->
+                    <!--android:gravity="top|left"-->
+                    <!--android:hint="Response"-->
+                    <!--android:lines="3"-->
+                    <!--android:padding="@dimen/_5sdp"-->
+                    <!--android:textSize="@dimen/formTextSize" />-->
+
+                    <!--</LinearLayout>-->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_2sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="Contact Person" />
+
+                        <EditText
+                            android:id="@+id/txtContactPerson"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/border_rectangle"
+                            android:hint="Contact Person"
+                            android:padding="@dimen/_5sdp"
+                            android:textSize="@dimen/formTextSize" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_2sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="Email Id" />
+
+                        <EditText
+                            android:id="@+id/txtEmail"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/border_rectangle"
+                            android:hint="Email Id"
+                            android:padding="@dimen/_5sdp"
+                            android:textSize="@dimen/formTextSize" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_2sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="Contact no" />
+
+                        <EditText
+                            android:id="@+id/txtContactNo"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/border_rectangle"
+                            android:hint="Contact no"
+                            android:inputType="number"
+                            android:padding="@dimen/_5sdp"
+                            android:textSize="@dimen/formTextSize" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_2sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="Board" />
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:layout_weight="7"
+                            android:background="@drawable/border_rectangle"
+                            android:padding="@dimen/_2sdp">
+
+                            <Spinner
+                                android:id="@+id/spinnerBoard"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:entries="@array/arrayBoard"
+                                android:padding="@dimen/_2sdp" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_2sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="Category" />
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:layout_weight="7"
+                            android:background="@drawable/border_rectangle"
+                            android:padding="@dimen/_2sdp">
+
+                            <Spinner
+                                android:id="@+id/spinnerCategory"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:entries="@array/arrayCategory"
+                                android:padding="@dimen/_2sdp" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_2sdp">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="Class Strength " />
+
+                        <EditText
+                            android:id="@+id/txtStrengthOfClass"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/border_rectangle"
+                            android:hint="Class Strength "
+                            android:inputType="number"
+                            android:padding="@dimen/_5sdp"
+                            android:textSize="@dimen/formTextSize" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_2sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="Sample Month" />
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:layout_weight="7"
+                            android:background="@drawable/border_rectangle"
+                            android:padding="@dimen/_2sdp">
+
+                            <Spinner
+                                android:id="@+id/spinnerSampleOfMonth"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:entries="@array/arrayMonth"
+                                android:padding="@dimen/_2sdp" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_2sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="Order Month" />
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:layout_weight="7"
+                            android:background="@drawable/border_rectangle"
+                            android:padding="@dimen/_2sdp">
+
+                            <Spinner
+                                android:id="@+id/spinnerOrderOfMonth"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:entries="@array/arrayMonth"
+                                android:padding="@dimen/_2sdp" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_2sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="Reason For Visit" />
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:layout_weight="7"
+                            android:background="@drawable/border_rectangle"
+                            android:padding="@dimen/_2sdp">
+
+                            <Spinner
+                                android:id="@+id/spinnerReasonForVisit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:entries="@array/arrayReasonForVisit"
+                                android:padding="@dimen/_2sdp" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_2sdp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_2sdp">
+
+                            <CheckBox
+                                android:id="@+id/radioTS"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="TS" />
+
+                            <CheckBox
+                                android:id="@+id/radioLS"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="LS" />
+
+                            <CheckBox
+                                android:id="@+id/radioG"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="G" />
+
+                            <CheckBox
+                                android:id="@+id/radioC"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="C" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_2sdp">
+
+                            <!--<RadioGroup-->
+                            <!--android:id="@+id/rg1"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:orientation="horizontal">-->
+
+                            <CheckBox
+                                android:id="@+id/radioDP"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="DP" />
+
+                            <CheckBox
+                                android:id="@+id/radioSB"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="SB" />
+
+                            <CheckBox
+                                android:id="@+id/radioNB"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="NB" />
+
+                            <!--</RadioGroup>-->
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_2sdp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Response" />
+
+                        <RadioGroup
+                            android:id="@+id/rgResponse"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+
+                            <RadioButton
+                                android:id="@+id/radioInterested"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Interested" />
+
+                            <RadioButton
+                                android:id="@+id/radioNotInterested"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Not Interested" />
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_2sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="Status Of Call" />
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:layout_weight="7"
+                            android:background="@drawable/border_rectangle"
+                            android:padding="@dimen/_2sdp">
+
+                            <Spinner
+                                android:id="@+id/spinnerStatusOfCall"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:entries="@array/arrayStatusOfCall"
+                                android:padding="@dimen/_2sdp" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_2sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="Comment" />
+
+                        <EditText
+                            android:id="@+id/txtComment"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/border_rectangle"
+                            android:gravity="top|left"
+                            android:hint="Comment"
+                            android:lines="3"
+                            android:padding="@dimen/_2sdp"
+                            android:textSize="@dimen/formTextSize" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <CheckBox
+                            android:id="@+id/chkIsNextVisit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Next Visit" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/layoutReminderDateRemark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_2sdp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_2sdp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:text="Visit Date" />
+
+                            <TextView
+                                android:id="@+id/txtReminderDate"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="7"
+                                android:drawablePadding="@dimen/_5sdp"
+                                android:background="@drawable/border_rectangle"
+                                android:drawableStart="@drawable/ic_date_picker_24dp"
+                                android:hint="Click For Visit Date"
+                                android:padding="@dimen/_5sdp"
+                                android:textSize="@dimen/formTextSize" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_2sdp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:text="Remark" />
+
+                            <EditText
+                                android:id="@+id/txtRemark"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="7"
+                                android:background="@drawable/border_rectangle"
+                                android:gravity="top|left"
+                                android:hint="Remark"
+                                android:lines="3"
+                                android:padding="@dimen/_5sdp"
+                                android:textSize="@dimen/formTextSize" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+        </ScrollView>
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorAccent"
+            android:text="Submit"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

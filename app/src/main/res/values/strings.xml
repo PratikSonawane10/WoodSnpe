@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">WoodSnipe</string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="title_location_permission">Location Permission</string>
+    <string name="text_location_permission">Location Permission is required to track your location so your attendance will marked.Please allow it.</string>
+
+
+    <string name="google_maps_key">AIzaSyDbT9glv4fwkDe58diwZL5bC0QSOwpwhFQ</string>
+
+
+    <string-array name="arrayTypes">
+        <item>Play Group</item>
+        <item>Book Seller</item>
+        <item>School</item>
+        <item>Distributor</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="arrayBoard">
+        <item>ICSE</item>
+        <item>HSC</item>
+        <item>SSC</item>
+    </string-array>
+
+    <string-array name="arrayCategory">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+    </string-array>
+
+    <string-array name="arrayMonth">
+        <item>Jan</item>
+        <item>Feb</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>Aug</item>
+        <item>Sept</item>
+        <item>Oct</item>
+        <item>Nov</item>
+        <item>Dec</item>
+    </string-array>
+
+    <string-array name="arrayStatusOfCall">
+        <item>Excellent</item>
+        <item>Good</item>
+        <item>Poor</item>
+    </string-array>
+
+    <string-array name="arrayReasonForVisit">
+        <item>Sample</item>
+        <item>Order</item>
+        <item>Payment</item>
+        <item>Visit and Returns</item>
+        <item>Other</item>
+    </string-array>
+
+</resources>

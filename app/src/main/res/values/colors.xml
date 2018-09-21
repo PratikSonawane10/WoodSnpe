@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+
+
+    <color name="colorPrimaryDark">#3fe1e4</color>
+    <!--<color name="colorAccent">#b9ea57</color>-->
+    <!--<color name="colorPrimaryDark">#581ee9</color>-->
+    <color name="colorAccent">#fc7247</color>
+    <color name="gradientEndColor">#a7f582</color>
+    <color name="btnBg">#6aba42</color>
+
+    <color name="orange">#fc7247</color>
+    <color name="amber100">#FFECB3</color>
+    <color name="logoColor">#ffed00</color>
+    <color name="logoColorLight">#cbbd00</color>
+
+    <color name="transparent">#80000000</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="colorwhite">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <color name="bdayBg">#fffefe</color>
+    <color name="lightgray02">#bfbfbf</color>
+    <color name="colorred500">#EF5350</color>
+    <color name="colorGreen500">#4CAF50</color>
+
+    <color name="btnbgcolor">#F44336</color>
+    <color name="addedByName">#1F5CA9</color>
+
+</resources>
+
+
