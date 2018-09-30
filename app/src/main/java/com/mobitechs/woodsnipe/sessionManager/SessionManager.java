@@ -33,6 +33,7 @@ public class SessionManager {
     public static final String KEY_PUNCHIN_TIME = "punchInTime";
     public static final String KEY_PUNCHOUT_TIME = "punchOutTime";
     public static final String KEY_SCHOOL_CHECKINID = "schoolCheckInId";
+    public static final String KEY_SCHOOL_DETAILS_ID = "schoolDetailsId";
 
     String userType;
 
@@ -143,6 +144,21 @@ public class SessionManager {
         user.put(KEY_SCHOOLID, pref.getString(KEY_SCHOOLID, null));
         user.put(KEY_SCHOOL_CHECKINID, pref.getString(KEY_SCHOOL_CHECKINID, null));
 
+        // return user
+        return user;
+    }
+    public void SetSchoolDetailsId(String schoolDetailsId, String schoolCheckInId) {
+        editor.putString(KEY_SCHOOL_DETAILS_ID, schoolDetailsId);
+        editor.putString(KEY_SCHOOL_CHECKINID, schoolCheckInId);
+
+        editor.commit();
+    }
+
+    public HashMap<String, String> GetSchoolDetailsId() {
+        HashMap<String, String> user = new HashMap<String, String>();
+
+        user.put(KEY_SCHOOL_DETAILS_ID, pref.getString(KEY_SCHOOL_DETAILS_ID, null));
+        user.put(KEY_SCHOOL_CHECKINID, pref.getString(KEY_SCHOOL_CHECKINID, null));
 
         // return user
         return user;

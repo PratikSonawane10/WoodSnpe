@@ -5,6 +5,7 @@
     <dimen name="alertDialogListNames">17sp</dimen>
     <dimen name="formTextSize">@dimen/_12sdp</dimen>
     <dimen name="margin">@dimen/_5sdp</dimen>
+    <dimen name="textHintSize">@dimen/_10sdp</dimen>
 
 
 

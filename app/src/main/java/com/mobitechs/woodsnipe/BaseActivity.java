@@ -53,8 +53,8 @@ public class BaseActivity extends AppCompatActivity {
         HashMap<String, String> typeOfUser = sessionManagerNgo.getUserDetails();
         userType = typeOfUser.get(SessionManager.KEY_USERID);
 
-        final String[] tittle = new String[]{"Home", "Attendance","School List", "Logout"};
-        final int[] icons = new int[]{R.drawable.ic_home_amber_100_24dp, R.drawable.ic_calendar_amber_100_24dp, R.drawable.ic_school_amber_100, R.drawable.ic_power_setting_amber_100};
+        final String[] tittle = new String[]{"Home", "Attendance","My Visit","My Orders", "Logout"};
+        final int[] icons = new int[]{R.drawable.ic_home_amber_100_24dp, R.drawable.ic_calendar_amber_100_24dp, R.drawable.ic_school_amber_100,R.drawable.ic_school_amber_100, R.drawable.ic_power_setting_amber_100};
         itemArrayList = new ArrayList<DrawerItems>();
         for (int i = 0; i < tittle.length; i++) {
             DrawerItems drawerItems = new DrawerItems();
@@ -62,7 +62,7 @@ public class BaseActivity extends AppCompatActivity {
             drawerItems.setIcons(icons[i]);
             itemArrayList.add(drawerItems);
         }
-        final int[] selectedicons = new int[]{R.drawable.ic_home_yellow, R.drawable.ic_calendar_yellow_24dp, R.drawable.ic_school_yellow, R.drawable.ic_power_yellow};
+        final int[] selectedicons = new int[]{R.drawable.ic_home_yellow, R.drawable.ic_calendar_yellow_24dp, R.drawable.ic_school_yellow,R.drawable.ic_school_yellow, R.drawable.ic_power_yellow};
         itemSelectedArrayList = new ArrayList<DrawerItems>();
         for (int i = 0; i < tittle.length; i++) {
             DrawerItems drawerItems = new DrawerItems();

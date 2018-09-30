@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.mobitechs.woodsnipe.Login;
+import com.mobitechs.woodsnipe.Reason_For_Visit;
 import com.mobitechs.woodsnipe.School_Details;
 
 import java.util.ArrayList;
@@ -20,8 +21,8 @@ public class AdapterForSpinner extends ArrayAdapter<String> {
     private ArrayList arrayList;
     private Context context;
 
-    public AdapterForSpinner(Login login, int spinneritem, List<String> nameList) {
-        super(login,spinneritem,nameList);
+    public AdapterForSpinner(Reason_For_Visit rfv, int spinneritem, List<String> nameList) {
+        super(rfv,spinneritem,nameList);
     }
 
     public AdapterForSpinner(School_Details school_details, int spinneritem, List<String> standardNameList) {

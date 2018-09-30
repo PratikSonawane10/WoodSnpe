@@ -55,7 +55,8 @@
         <activity android:name=".Attendance" android:label="Attendance"/>
         <activity android:name=".MainActivity" />
         <activity android:name=".School_Details" android:label="Details" android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".School_Add" android:label="School Add"/>
+        <activity android:name=".School_Add" android:label="School Add" android:noHistory="true"/>
+        <activity android:name=".Reason_For_Visit"/>
     </application>
 
 </manifest>

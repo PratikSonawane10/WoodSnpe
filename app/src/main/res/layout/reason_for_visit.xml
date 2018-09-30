@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_margin="@dimen/_5sdp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_2sdp"
+            android:orientation="horizontal"
+            android:padding="@dimen/_2sdp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Reason For Visit" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_2sdp"
+                android:layout_weight="7"
+                android:background="@drawable/border_rectangle"
+                android:padding="@dimen/_2sdp">
+
+                <Spinner
+                    android:id="@+id/spinnerReasonForVisit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/arrayReasonForVisit"
+                    android:padding="@dimen/_2sdp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="@dimen/_5sdp"
+            android:id="@+id/sampleLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/dialog_reasonforvist_sample"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="@dimen/_5sdp"
+            android:id="@+id/paymentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/dialog_reasonforvist_payment"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="@dimen/_5sdp"
+            android:id="@+id/orderReturnsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/dialog_reasonforvist_order_returns"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="@dimen/_5sdp"
+            android:id="@+id/otherLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/dialog_other"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

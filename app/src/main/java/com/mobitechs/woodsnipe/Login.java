@@ -1,12 +1,15 @@
 package com.mobitechs.woodsnipe;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,6 +17,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.mobitechs.woodsnipe.internetConnectivity.NetworkChangeReceiver;
 import com.mobitechs.woodsnipe.sessionManager.SessionManager;
 import com.mobitechs.woodsnipe.webService.WebService;
@@ -41,6 +47,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 //    public String saveEmail;
 //    public String saaveMobileNo;
     public String DeptType;
+
+    String title ="",msg ="",dialogFor;
+    Drawable icon;
 
 
 
@@ -89,6 +98,25 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
+    private void ShowConfirmationDialog(final String dialogFor, String msg, String title) {
+
+        if(dialogFor.equals("APIError")){
+            icon = getResources().getDrawable(R.drawable.ic_info_outline_orange_24dp);
+        }
+        new MaterialStyledDialog.Builder(this)
+                // .setTitle(title)
+                .setHeaderColor(R.color.colorPrimaryDark)
+                .setDescription(msg)
+                .setPositiveText("Ok")
+                .setIcon(icon)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    }
+                })
+                .show();
+
+    }
     public class LoginAsyncCallWS extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... params) {
@@ -101,36 +129,18 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         protected void onPostExecute(Void res) {
             if (loginResponseResult.equals("Invalid UserName or Password.")) {
                 progressDialog.dismiss();
-                AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                builder.setTitle("Result");
-                builder.setMessage(loginResponseResult);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface alert, int which) {
-                        // TODO Auto-generated method stub
-                        //Do something
-                        alert.dismiss();
-                    }
-                });
-                AlertDialog alert1 = builder.create();
-                alert1.show();
+                title="Response";
+                dialogFor ="APIError";
+                msg = "Invalid UserName or Password.";
+                ShowConfirmationDialog(dialogFor,msg,title);
+
             } else if (loginResponseResult.equals("No Network Found")) {
                 progressDialog.dismiss();
-                AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                builder.setTitle("Result");
-                builder.setMessage("Unable To Login. Please Try Again Later.");
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface alert, int which) {
-                        // TODO Auto-generated method stub
-                        //Do something
-                        alert.dismiss();
-                    }
-                });
-                AlertDialog alert1 = builder.create();
-                alert1.show();
+                title="Response";
+                dialogFor ="APIError";
+                msg = "Unable To Punch In. Please Try Again Later.";
+                ShowConfirmationDialog(dialogFor,msg,title);
             } else {
                 progressDialog.dismiss();
                 sessionManager = new SessionManager(Login.this);
@@ -167,6 +177,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     }
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onResume() {
         super.onResume();

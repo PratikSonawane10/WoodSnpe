@@ -7,6 +7,8 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.io.File;
+
 public class WebService {
 
 	private static String NAMESPACE = "http://tempuri.org/";
@@ -59,19 +61,43 @@ public class WebService {
 		return resTxt;
 	}
 
+	public static String PunchINOrNot(String userId, String method) {
+
+		String resTxt = null;
+		SoapObject request = new SoapObject(NAMESPACE, method);
+		PropertyInfo celsiusPI = new PropertyInfo();
+		celsiusPI.setName("EmpID");
+		celsiusPI.setValue(userId);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+				SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(request);
+		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+
+		try {
+			androidHttpTransport.call(SOAP_ACTION+method, envelope);
+			SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+			resTxt = response.toString();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			resTxt = "No Network Found";
+		}
+
+		return resTxt;
+
+	}
+
     public static String PunchIN(String userId, String latLong, String method) {
 		String resTxt = null;
-		// Create request
 		SoapObject request = new SoapObject(NAMESPACE, method);
-		// Property which holds input parameters
 		PropertyInfo celsiusPI = new PropertyInfo();
-		// Set Name
 		celsiusPI.setName("EmpID");
-		// Set Value
 		celsiusPI.setValue(userId);
-		// Set dataType
 		celsiusPI.setType(String.class);
-		// Add the property to request object
 		request.addProperty(celsiusPI);
 
 		celsiusPI=new PropertyInfo();
@@ -80,21 +106,15 @@ public class WebService {
 		celsiusPI.setType(String.class);
 		request.addProperty(celsiusPI);
 
-		// Create envelope
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
 				SoapEnvelope.VER11);
 		envelope.dotNet = true;
-		// Set output SOAP object
 		envelope.setOutputSoapObject(request);
-		// Create HTTP call object
 		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
 
 		try {
-			// Invole web service
 			androidHttpTransport.call(SOAP_ACTION+method, envelope);
-			// Get the response
 			SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
-			// Assign it to fahren static variable
 			resTxt = response.toString();
 
 		} catch (Exception e) {
@@ -139,7 +159,6 @@ public class WebService {
 
 		return resTxt;
 	}
-
 
 	public static String SaveUserLocation(String userId, String latitude, String longitude, String method) {
 
@@ -208,6 +227,7 @@ public class WebService {
 
 		return resTxt;
 	}
+
 	public static String AttendanceDetails(String userId, int month, int year, String method) {
 
 		String resTxt = null;
@@ -315,7 +335,420 @@ public class WebService {
 		return resTxt;
 	}
 
-	public static String SchoolCheckOut(String userId, String schoolId, String schoolCheckInId, String typesName, String response, String contactPerson, String email, String contactNo, String boardName, String categoryName, String strengthOfClass, String sampleOfMonthName, String orderOfMonthName, String resonForVisitName, String radioValueTsTl, boolean isIntrested, String statusOfCallName, String comment, boolean isNextVisit, String selectedReminderDate, String remark, String latitude, String longitude, String method) {
+	public static String InsertSchool(String userId, String schoolName, String schoolContactNo, String schoolEmail, String schoolAddress, String method) {
+
+		String resTxt = null;
+		SoapObject request = new SoapObject(NAMESPACE, method);
+		PropertyInfo celsiusPI = new PropertyInfo();
+		celsiusPI.setName("EmpID");
+		celsiusPI.setValue(userId);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("SchoolName");
+		celsiusPI.setValue(schoolName);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("ContactNo");
+		celsiusPI.setValue(schoolContactNo);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("Email");
+		celsiusPI.setValue(schoolEmail);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("Address");
+		celsiusPI.setValue(schoolAddress);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+				SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(request);
+		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+
+		try {
+			androidHttpTransport.call(SOAP_ACTION+method, envelope);
+			SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+			resTxt = response.toString();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			resTxt = "No Network Found";
+		}
+		return resTxt;
+	}
+
+    public static String GetStatusOfCall(String webMethName) {
+		String resTxt = null;
+		SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+				SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(request);
+		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+
+		try {
+			androidHttpTransport.call(SOAP_ACTION+webMethName, envelope);
+			SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+			resTxt = response.toString();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			resTxt = "No Network Found";
+		}
+		return resTxt;
+    }
+
+	public static String CustomerTypes(String webMethName) {
+		String resTxt = null;
+		SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+				SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(request);
+		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+
+		try {
+			androidHttpTransport.call(SOAP_ACTION+webMethName, envelope);
+			SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+			resTxt = response.toString();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			resTxt = "No Network Found";
+		}
+		return resTxt;
+	}
+
+	public static String GetBoardList(String webMethName) {
+		String resTxt = null;
+		SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+				SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(request);
+		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+
+		try {
+			androidHttpTransport.call(SOAP_ACTION+webMethName, envelope);
+			SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+			resTxt = response.toString();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			resTxt = "No Network Found";
+		}
+		return resTxt;
+	}
+
+	public static String GetCategoryList(String webMethName) {
+		String resTxt = null;
+		SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+				SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(request);
+		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+
+		try {
+			androidHttpTransport.call(SOAP_ACTION+webMethName, envelope);
+			SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+			resTxt = response.toString();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			resTxt = "No Network Found";
+		}
+		return resTxt;
+	}
+
+	public static String GetReasonForVisit(String webMethName) {
+		String resTxt = null;
+		SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+				SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(request);
+		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+
+		try {
+			androidHttpTransport.call(SOAP_ACTION+webMethName, envelope);
+			SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+			resTxt = response.toString();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			resTxt = "No Network Found";
+		}
+		return resTxt;
+	}
+
+    public static String SubmitReasonForVisitOther(String schoolDetailsId, String userId, String reasonForVisitName, String otherReasonForVisit, String method) {
+
+		String resTxt = null;
+		SoapObject request = new SoapObject(NAMESPACE, method);
+		PropertyInfo celsiusPI = new PropertyInfo();
+		celsiusPI.setName("schoolDetailsId");
+		celsiusPI.setValue(schoolDetailsId);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("userId");
+		celsiusPI.setValue(userId);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("reasonForVisitName");
+		celsiusPI.setValue(reasonForVisitName);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("otherReasonForVisit");
+		celsiusPI.setValue(otherReasonForVisit);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+				SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(request);
+		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+
+		try {
+			androidHttpTransport.call(SOAP_ACTION+method, envelope);
+			SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+			resTxt = response.toString();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			resTxt = "No Network Found";
+		}
+		return resTxt;
+	}
+
+	public static String SubmitReasonForVisitPayment(String schoolDetailsId, String userId, String reasonForVisitName, String paymentDate, String paymentMode, String paymentAmount, File paymentImgFile, String method) {
+
+		String resTxt = null;
+		SoapObject request = new SoapObject(NAMESPACE, method);
+		PropertyInfo celsiusPI = new PropertyInfo();
+		celsiusPI.setName("schoolDetailsId");
+		celsiusPI.setValue(schoolDetailsId);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("userId");
+		celsiusPI.setValue(userId);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("reasonForVisitName");
+		celsiusPI.setValue(reasonForVisitName);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("paymentDate");
+		celsiusPI.setValue(paymentDate);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("paymentMode");
+		celsiusPI.setValue(paymentMode);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("paymentAmount");
+		celsiusPI.setValue(paymentAmount);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("paymentImgFile");
+		celsiusPI.setValue(paymentImgFile);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+				SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(request);
+		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+
+		try {
+			androidHttpTransport.call(SOAP_ACTION+method, envelope);
+			SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+			resTxt = response.toString();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			resTxt = "No Network Found";
+		}
+		return resTxt;
+	}
+
+	public static String SubmitReasonForVisitSample(String schoolDetailsId, String userId, String reasonForVisitName, String tinyStepsQty, String littleStepsQty, String computerQty, String grammarQty, String cursive1, String cursive2, String cursive3, String noteBookQty, String drawingBookQty, String scrapBookQty, String graphBookQty, String sampleOther, String sampleOtherQty, String sampleContactPerson, String sampleContactNo, String sampleEmailId, String method) {
+
+
+		String resTxt = null;
+		SoapObject request = new SoapObject(NAMESPACE, method);
+		PropertyInfo celsiusPI = new PropertyInfo();
+		celsiusPI.setName("schoolDetailsId");
+		celsiusPI.setValue(schoolDetailsId);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("userId");
+		celsiusPI.setValue(userId);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("reasonForVisitName");
+		celsiusPI.setValue(reasonForVisitName);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("tinyStepsQty");
+		celsiusPI.setValue(tinyStepsQty);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("littleStepsQty");
+		celsiusPI.setValue(littleStepsQty);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("computerQty");
+		celsiusPI.setValue(computerQty);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("grammarQty");
+		celsiusPI.setValue(grammarQty);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("cursive1");
+		celsiusPI.setValue(cursive1);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("cursive2");
+		celsiusPI.setValue(cursive2);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("cursive3");
+		celsiusPI.setValue(cursive3);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("noteBookQty");
+		celsiusPI.setValue(noteBookQty);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("drawingBookQty");
+		celsiusPI.setValue(drawingBookQty);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("scrapBookQty");
+		celsiusPI.setValue(scrapBookQty);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("graphBookQty");
+		celsiusPI.setValue(graphBookQty);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("sampleOther");
+		celsiusPI.setValue(sampleOther);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("sampleOtherQty");
+		celsiusPI.setValue(sampleOtherQty);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("sampleContactPerson");
+		celsiusPI.setValue(sampleContactPerson);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("sampleContactNo");
+		celsiusPI.setValue(sampleContactNo);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("sampleEmailId");
+		celsiusPI.setValue(sampleEmailId);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+
+
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+				SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(request);
+		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+
+		try {
+			androidHttpTransport.call(SOAP_ACTION+method, envelope);
+			SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+			resTxt = response.toString();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			resTxt = "No Network Found";
+		}
+		return resTxt;
+	}
+
+    public static String SchoolCheckOut2(String userId, String schoolId, String schoolCheckInId, String typesName, String schoolSection, String otherCustomerType, String contactPerson, String email, String contactNo, String boardName, String categoryName, String seriesPrefrence, String storyBook, String strengthOfClass, String sampleOfMonthName, String orderOfMonthName, String isIntrested, String statusOfCallName, String comment, String isNextVisit, String selectedReminderDate, String remark, String latitude, String longitude, String method) {
+
 
 		String resTxt = null;
 		SoapObject request = new SoapObject(NAMESPACE, method);
@@ -338,112 +771,119 @@ public class WebService {
 		request.addProperty(celsiusPI);
 
 		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("TypesName");
+		celsiusPI.setName("CustomerType");
 		celsiusPI.setValue(typesName);
 		celsiusPI.setType(String.class);
 		request.addProperty(celsiusPI);
 
 		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("response");
-		celsiusPI.setValue(response);
+		celsiusPI.setName("schoolSection");
+		celsiusPI.setValue(schoolSection);
 		celsiusPI.setType(String.class);
 		request.addProperty(celsiusPI);
 
 		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("contactPerson");
+		celsiusPI.setName("CustomerTypeOther");
+		celsiusPI.setValue(otherCustomerType);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("ContactPerson");
 		celsiusPI.setValue(contactPerson);
 		celsiusPI.setType(String.class);
 		request.addProperty(celsiusPI);
 
 		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("email");
+		celsiusPI.setName("EmailID");
 		celsiusPI.setValue(email);
 		celsiusPI.setType(String.class);
 		request.addProperty(celsiusPI);
 
 		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("contactNo");
+		celsiusPI.setName("ContactNo");
 		celsiusPI.setValue(contactNo);
 		celsiusPI.setType(String.class);
 		request.addProperty(celsiusPI);
 
 		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("boardName");
+		celsiusPI.setName("Board");
 		celsiusPI.setValue(boardName);
 		celsiusPI.setType(String.class);
 		request.addProperty(celsiusPI);
 
 		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("categoryName");
+		celsiusPI.setName("Category");
 		celsiusPI.setValue(categoryName);
 		celsiusPI.setType(String.class);
 		request.addProperty(celsiusPI);
 
 		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("strengthOfClass");
+		celsiusPI.setName("SeriesPrefrence");
+		celsiusPI.setValue(seriesPrefrence);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("StoryBook");
+		celsiusPI.setValue(storyBook);
+		celsiusPI.setType(String.class);
+		request.addProperty(celsiusPI);
+
+		celsiusPI=new PropertyInfo();
+		celsiusPI.setName("StrenghtPreclass");
 		celsiusPI.setValue(strengthOfClass);
 		celsiusPI.setType(String.class);
 		request.addProperty(celsiusPI);
 
 		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("sampleOfMonthName");
+		celsiusPI.setName("SampleMonth");
 		celsiusPI.setValue(sampleOfMonthName);
 		celsiusPI.setType(String.class);
 		request.addProperty(celsiusPI);
 
 		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("orderOfMonthName");
+		celsiusPI.setName("OrderMonth");
 		celsiusPI.setValue(orderOfMonthName);
 		celsiusPI.setType(String.class);
 		request.addProperty(celsiusPI);
 
 		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("resonForVisitName");
-		celsiusPI.setValue(resonForVisitName);
-		celsiusPI.setType(String.class);
-		request.addProperty(celsiusPI);
-
-		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("radioValueTsTl");
-		celsiusPI.setValue(radioValueTsTl);
-		celsiusPI.setType(String.class);
-		request.addProperty(celsiusPI);
-
-		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("isIntrested");
+		celsiusPI.setName("Response");
 		celsiusPI.setValue(isIntrested);
 		celsiusPI.setType(String.class);
 		request.addProperty(celsiusPI);
 
 		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("statusOfCallName");
+		celsiusPI.setName("StatusOfCan");
 		celsiusPI.setValue(statusOfCallName);
 		celsiusPI.setType(String.class);
 		request.addProperty(celsiusPI);
 
 		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("comment");
+		celsiusPI.setName("Comment");
 		celsiusPI.setValue(comment);
 		celsiusPI.setType(String.class);
 		request.addProperty(celsiusPI);
 
 		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("isNextVisit");
+		celsiusPI.setName("IsNextVisit");
 		celsiusPI.setValue(isNextVisit);
 		celsiusPI.setType(String.class);
 		request.addProperty(celsiusPI);
 
 		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("selectedReminderDate");
+		celsiusPI.setName("VisitDate");
 		celsiusPI.setValue(selectedReminderDate);
 		celsiusPI.setType(String.class);
 		request.addProperty(celsiusPI);
 
 		celsiusPI=new PropertyInfo();
-		celsiusPI.setName("remark");
+		celsiusPI.setName("Remark");
 		celsiusPI.setValue(remark);
 		celsiusPI.setType(String.class);
 		request.addProperty(celsiusPI);
+
 
 		celsiusPI=new PropertyInfo();
 		celsiusPI.setName("lattitude");
@@ -473,5 +913,27 @@ public class WebService {
 			resTxt = "No Network Found";
 		}
 		return resTxt;
-	}
+    }
+
+    public static String GetMonthList(String webMethName) {
+        String resTxt = null;
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                SoapEnvelope.VER11);
+        envelope.dotNet = true;
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransport.call(SOAP_ACTION+webMethName, envelope);
+            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+            resTxt = response.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            resTxt = "No Network Found";
+        }
+        return resTxt;
+    }
 }

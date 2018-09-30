@@ -128,7 +128,13 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
                 vtextView.setTextColor(v.getResources().getColor(R.color.logoColor));
                 drawerDivider.setBackgroundColor(v.getResources().getColor(R.color.logoColor));
             }
-            else if (positionOfItem == 3 && itemsList.getIcon() == R.drawable.ic_power_setting_amber_100) {
+            else if (positionOfItem == 3 && itemsList.getIcon() == R.drawable.ic_school_amber_100) {
+                vtextView.setText(itemsSelectedList.getTittle());
+                vimageView.setImageResource(itemsSelectedList.getIcon());
+                vtextView.setTextColor(v.getResources().getColor(R.color.logoColor));
+                drawerDivider.setBackgroundColor(v.getResources().getColor(R.color.logoColor));
+            }
+            else if (positionOfItem == 4 && itemsList.getIcon() == R.drawable.ic_power_setting_amber_100) {
                 vtextView.setText(itemsSelectedList.getTittle());
                 vimageView.setImageResource(itemsSelectedList.getIcon());
                 vtextView.setTextColor(v.getResources().getColor(R.color.logoColor));
@@ -157,6 +163,12 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
                 view.getContext().startActivity(gotoformhome);
             }
             else if (this.getAdapterPosition() == 3) {
+                drawer.closeDrawers();
+//                Intent gotoformhome = new Intent(view.getContext(), School_List.class);
+//                gotoformhome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                view.getContext().startActivity(gotoformhome);
+            }
+            else if (this.getAdapterPosition() == 4) {
                 drawer.closeDrawers();
                 sessionManager = new SessionManager(v.getContext());
                 sessionManager.logoutUser();

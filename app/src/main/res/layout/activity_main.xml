@@ -97,12 +97,13 @@
                                     android:textColor="@color/white" />
 
                                 <TextView
-                                    android:visibility="gone"
                                     android:id="@+id/txtPunchInTime"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:gravity="center"
+                                    android:visibility="gone"
+                                    android:textSize="@dimen/_8sdp"
                                     android:padding="@dimen/_5sdp" />
 
                             </LinearLayout>
@@ -125,6 +126,7 @@
 
                                 <TextView
                                     android:visibility="gone"
+                                    android:textSize="@dimen/_8sdp"
                                     android:id="@+id/txtPunchOutTime"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

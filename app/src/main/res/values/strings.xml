@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">WoodSnipe</string>
 
+        <string name="fabBehaviour">com.mobitechs.woodsnipe.behaviours.ScrollAwareFABBehavior</string>
+
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
 
@@ -24,9 +26,9 @@
     </string-array>
 
     <string-array name="arrayBoard">
-        <item>ICSE</item>
-        <item>HSC</item>
         <item>SSC</item>
+        <item>CBSE</item>
+        <item>ICSE</item>
     </string-array>
 
     <string-array name="arrayCategory">
@@ -57,10 +59,11 @@
     </string-array>
 
     <string-array name="arrayReasonForVisit">
+        <item>Select Reason</item>
         <item>Sample</item>
         <item>Order</item>
         <item>Payment</item>
-        <item>Visit and Returns</item>
+        <item>Returns</item>
         <item>Other</item>
     </string-array>
 

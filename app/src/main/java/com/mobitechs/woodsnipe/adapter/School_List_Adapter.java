@@ -1,9 +1,13 @@
 package com.mobitechs.woodsnipe.adapter;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +16,23 @@ import android.widget.Filter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.mobitechs.woodsnipe.MainActivity;
 import com.mobitechs.woodsnipe.School_Details;
 import com.mobitechs.woodsnipe.School_List;
 import com.mobitechs.woodsnipe.R;
 import com.mobitechs.woodsnipe.model.School_Items;
+import com.mobitechs.woodsnipe.sessionManager.SessionManager;
+import com.mobitechs.woodsnipe.webService.WebService;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class School_List_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -27,6 +42,9 @@ public class School_List_Adapter extends RecyclerView.Adapter<RecyclerView.ViewH
     View v;
     RecyclerView.ViewHolder viewHolder;
     RecyclerView recyclerView;
+
+    String userId,schoolId, method, punchInMsg,responseResultPunchIn,title,dialogFor,msg;
+    Drawable icon;
 
     public School_List_Adapter(School_List school_list, List<School_Items> filteredListItems, RecyclerView recyclerView) {
         this.filteredListItems = filteredListItems;
@@ -74,6 +92,10 @@ public class School_List_Adapter extends RecyclerView.Adapter<RecyclerView.ViewH
             txtEmail = (TextView) itemView.findViewById(R.id.txtEmail);
             txtContact = (TextView) itemView.findViewById(R.id.txtContact);
 
+            SessionManager sessionManager = new SessionManager(v.getContext());
+            HashMap<String, String> typeOfUser = sessionManager.getUserDetails();
+            userId = typeOfUser.get(SessionManager.KEY_USERID);
+
             cardView = itemView;
             cardView.setOnClickListener(this);
         }
@@ -98,38 +120,107 @@ public class School_List_Adapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public void onClick(final View v) {
 
             if(this.filteredListItems != null){
-                checkOutDt = filteredListItems.getCheckinDate();
-                if(checkOutDt != null){
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                    builder.setTitle("Confirmation");
-                    builder.setMessage("Do You Really Want To Check In?");
-                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent gotoBill = new Intent(v.getContext(), School_Details.class);
-                            gotoBill.putExtra("schoolId",filteredListItems.getSchoolId());
-                            v.getContext().startActivity(gotoBill);
-
-                        }
-                    });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    builder.show();
-                }
-
+                Intent gotoBill = new Intent(v.getContext(), School_Details.class);
+                gotoBill.putExtra("schoolId",filteredListItems.getSchoolId());
+                gotoBill.putExtra("schoolName",filteredListItems.getSchoolName());
+                v.getContext().startActivity(gotoBill);
+//                checkOutDt = filteredListItems.getCheckinDate();
+//                schoolId = filteredListItems.getSchoolId();
+//
+//                if(checkOutDt != null){
+//                    title="Confirmation";
+//                    dialogFor ="CheckIn";
+//                    msg = "Do You Want To Check In ?";
+//                    ShowConfirmationDialog(dialogFor,msg,title);
+//                }else {
+//                    // if same date and ou punch is done then give popup u already punch out
+//                }
             }
             else if(v.getId() == R.id.contactLayout){
-                Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                callIntent.setData(Uri.parse("tel:" + filteredListItems.getSchoolContactNo()));
-                v.getContext().startActivity(callIntent);
+//                Intent callIntent = new Intent(Intent.ACTION_DIAL);
+//                callIntent.setData(Uri.parse("tel:" + filteredListItems.getSchoolContactNo()));
+//                v.getContext().startActivity(callIntent);
             }
 
         }
+    }
+
+    public class CheckInOrNotWebService extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+            method = "CheckPunchin";
+            responseResultPunchIn = WebService.PunchINOrNot(userId, method);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void res) {
+            if (responseResultPunchIn.equals("No Network Found")) {
+                title="Response";
+                dialogFor ="APIError";
+                msg = "Unable To Find Punching Details. Please Try Again Later.";
+                //ShowConfirmationDialog(dialogFor,msg,title);
+            }
+            else {
+                try {
+//                    JSONObject obj = new JSONObject(responseResultLocation);
+
+                    JSONArray jArr = new JSONArray(responseResultPunchIn);
+                    for (int count = 0; count < jArr.length(); count++) {
+                        JSONObject obj = jArr.getJSONObject(count);
+//                        attendanceId = obj.getString("AttendanceID");
+//                        punchInTime = obj.getString("PunchIn");
+//                        punchOutTime = obj.getString("PunchOut");
+                        punchInMsg = obj.getString("msg");//Already Punch In //Not Punch In
+
+                        if (punchInMsg.equals("Punch In")) {
+                            Intent gotoBill = new Intent(v.getContext(), School_Details.class);
+                            gotoBill.putExtra("schoolId",schoolId);
+                            v.getContext().startActivity(gotoBill);
+                        }
+                        else {
+                            title="Result";
+                            dialogFor ="NotPunching";
+                            msg = "You Have Not Punch In Yet,Please Punch In First.";
+                            ShowConfirmationDialog(dialogFor,msg,title);
+                        }
+                    }
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void ShowConfirmationDialog(final String dialogFor, String msg, String title) {
+
+        if(dialogFor.equals("APIError")){
+            icon = v.getContext().getResources().getDrawable(R.drawable.ic_info_outline_orange_24dp);
+        }
+        new MaterialStyledDialog.Builder(v.getContext())
+                // .setTitle(title)
+                .setHeaderColor(R.color.colorPrimaryDark)
+                .setDescription(msg)
+                .setPositiveText("Ok")
+                .setIcon(icon)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                        if(dialogFor.equals("CheckIn")){
+                            CheckInOrNotWebService taskPunch = new CheckInOrNotWebService();
+                            taskPunch.execute();
+                        }
+                        else if(dialogFor.equals("NotPunching")){
+                            Intent it = new Intent(v.getContext(), MainActivity.class);
+                            it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            v.getContext().startActivity(it);
+                        }
+                    }
+                })
+                .show();
+
     }
 
     public Filter getFilter() {
@@ -143,7 +234,7 @@ public class School_List_Adapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 else {
                     List<School_Items> filteredList = new ArrayList<>();
                     for (School_Items row : listItems) {
-                        if (row.getSchoolName().toLowerCase().contains(charString.toLowerCase())) {
+                        if (row.getSchoolName().toLowerCase().contains(charString.toLowerCase()) || row.getSchoolAddress().toLowerCase().contains(charString.toLowerCase()) || row.getSchoolContactNo().toLowerCase().contains(charString.toLowerCase()) || row.getSchoolEmail().toLowerCase().contains(charString.toLowerCase())  ) {
                             filteredList.add(row);
                         }
                     }

@@ -5,10 +5,12 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -18,6 +20,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -52,14 +57,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     private ProgressDialog progressDialog = null;
-
     TextView txtPunchInTime, txtPunchOutTime;
+    String title ="",msg ="",dialogFor;
+    Drawable icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        icon = getResources().getDrawable(R.drawable.ic_watch_orange_24dp);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         checkLocationPermission();
 
@@ -80,29 +87,33 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         btnCheckIn.setOnClickListener(this);
         btnCheckOut.setOnClickListener(this);
 
-        if (punchInTime == null) {
-            punchInTime = "";
-        }
-        if (punchOutTime == null) {
-            punchOutTime = "";
-        }
+        CheckInOrNotWebService taskPunch = new CheckInOrNotWebService();
+        taskPunch.execute();
 
-        if (!punchInTime.equals("")) {
-            txtPunchInTime.setVisibility(View.VISIBLE);
-            txtPunchInTime.setText(punchInTime);
-            btnCheckIn.setBackgroundColor(getResources().getColor(R.color.btnBg));
-        }
-        else{
-            txtPunchInTime.setVisibility(View.GONE);
-        }
-        if (!punchOutTime.equals("")) {
-            txtPunchOutTime.setVisibility(View.VISIBLE);
-            txtPunchOutTime.setText(punchOutTime);
-            btnCheckOut.setBackgroundColor(getResources().getColor(R.color.btnBg));
-        }
-        else{
-            txtPunchOutTime.setVisibility(View.GONE);
-        }
+
+//        if (punchInTime == null) {
+//            punchInTime = "";
+//        }
+//        if (punchOutTime == null) {
+//            punchOutTime = "";
+//        }
+//
+//        if (!punchInTime.equals("")) {
+//            txtPunchInTime.setVisibility(View.VISIBLE);
+//            txtPunchInTime.setText(punchInTime);
+//            btnCheckIn.setBackgroundColor(getResources().getColor(R.color.btnBg));
+//        }
+////        else{
+////            txtPunchInTime.setVisibility(View.GONE);
+////        }
+//        if (!punchOutTime.equals("")) {
+//            txtPunchOutTime.setVisibility(View.VISIBLE);
+//            txtPunchOutTime.setText(punchOutTime);
+//            btnCheckOut.setBackgroundColor(getResources().getColor(R.color.btnBg));
+//        }
+//        else{
+//            txtPunchOutTime.setVisibility(View.GONE);
+//        }
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Yesterday"));
         tabLayout.addTab(tabLayout.newTab().setText("Today"));
@@ -140,84 +151,66 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         if (v.getId() == R.id.btnCheckIn) {
 
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("Confirmation");
-            builder.setMessage("Do You Really Want To Punch In ?");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface alert, int which) {
-                    // TODO Auto-generated method stub
-                    //Do something
-                    progressDialog = new ProgressDialog(MainActivity.this);
-                    progressDialog.setMessage("Punching In.");
-                    progressDialog.show();
-
-                    imFrom = "PunchIn";
-                    getCurrentLocation(imFrom);
-                    UpdateLocationTimer();
-
-                    alert.dismiss();
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface alert, int which) {
-                    alert.dismiss();
-                }
-            });
-            AlertDialog alert1 = builder.create();
-            alert1.show();
-
+            dialogFor="UserCheckInConfirmation";
+            msg = "Do You Want To Punch In ?";
+            ShowConfirmationDialog(dialogFor,msg,title);
 
         } else if (v.getId() == R.id.btnCheckOut) {
 
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("Confirmation");
-            builder.setMessage("Do You Really Want To Punch Out ?");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface alert, int which) {
-                    // TODO Auto-generated method stub
-                    //Do something
-
-                    HashMap<String, String> getAttId = sessionManager.GetCheckinId();
-                    attendanceId = getAttId.get(SessionManager.KEY_ATTENDANCEID);
-
-                    progressDialog = new ProgressDialog(MainActivity.this);
-                    progressDialog.setMessage("Punching Out.");
-                    progressDialog.show();
-
-                    imFrom = "PunchOut";
-                    getCurrentLocation(imFrom);
-
-                    if (timer != null) {
-                        timer.cancel();
-                    }
-
-                    if (attendanceId == null) {
-                        attendanceId = "";
-                    }
-
-                    CheckOutWebService task = new CheckOutWebService();
-                    task.execute();
-
-
-                    alert.dismiss();
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface alert, int which) {
-                    alert.dismiss();
-                }
-            });
-            AlertDialog alert1 = builder.create();
-            alert1.show();
+            imFrom="PunchOut";
+            dialogFor ="UserCheckOutConfirmation";
+            msg = "Do You Want To Punch Out ?";
+            ShowConfirmationDialog(dialogFor,msg,title);
         }
+    }
+
+    private void ShowConfirmationDialog(final String dialogFor, String msg, String title) {
+
+        if(dialogFor.equals("APIError")){
+            icon = getResources().getDrawable(R.drawable.ic_info_outline_orange_24dp);
+        }
+        new MaterialStyledDialog.Builder(this)
+               // .setTitle(title)
+                .setHeaderColor(R.color.colorPrimaryDark)
+                .setDescription(msg)
+                .setPositiveText("Ok")
+                .setIcon(icon)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                        if(dialogFor.equals("UserCheckInConfirmation")){
+                            progressDialog = new ProgressDialog(MainActivity.this);
+                            progressDialog.setMessage("Punching In.");
+                            progressDialog.show();
+
+                            imFrom = "PunchIn";
+                            getCurrentLocation(imFrom);
+                            UpdateLocationTimer();
+                        }
+                        else if(dialogFor.equals("UserCheckOutConfirmation")){
+
+                            HashMap<String, String> getAttId = sessionManager.GetCheckinId();
+                            attendanceId = getAttId.get(SessionManager.KEY_ATTENDANCEID);
+                            progressDialog = new ProgressDialog(MainActivity.this);
+                            progressDialog.setMessage("Punching Out.");
+                            progressDialog.show();
+
+                            imFrom = "PunchOut";
+                            getCurrentLocation(imFrom);
+
+                            if (timer != null) {
+                                timer.cancel();
+                            }
+
+                            if (attendanceId == null) {
+                                attendanceId = "";
+                            }
+                        }
+                    }
+                })
+                .show();
+
     }
 
     public boolean checkLocationPermission() {
@@ -339,13 +332,75 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             if (imFrom.equals("UpdateTimer")) {
                                 UserLocationWebService task = new UserLocationWebService();
                                 task.execute();
-                            } else if (imFrom.equals("PunchIn")) {
+                            }
+                            else if (imFrom.equals("PunchIn")) {
                                 CheckInWebService task = new CheckInWebService();
+                                task.execute();
+                            }
+                            else if (imFrom.equals("PunchOut")) {
+                                CheckOutWebService task = new CheckOutWebService();
                                 task.execute();
                             }
                         }
                     }
                 });
+    }
+
+    public class CheckInOrNotWebService extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+            method = "CheckPunchin";
+            responseResultPunchIn = WebService.PunchINOrNot(userId, method);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void res) {
+            if (responseResultPunchIn.equals("No Network Found")) {
+                title="Response";
+                dialogFor ="APIError";
+                msg = "Unable To Find Punching Details. Please Try Again Later.";
+                ShowConfirmationDialog(dialogFor,msg,title);
+            }
+            else {
+                sessionManager = new SessionManager(MainActivity.this);
+                try {
+                    JSONArray jArr = new JSONArray(responseResultPunchIn);
+                    for (int count = 0; count < jArr.length(); count++) {
+                        JSONObject obj = jArr.getJSONObject(count);
+                        attendanceId = obj.getString("AttendanceID");
+                        punchInTime = obj.getString("PunchIn");
+                        punchOutTime = obj.getString("PunchOut");
+                        punchInMsg = obj.getString("msg");//Already Punch In //Not Punch In
+
+                        if (punchInMsg.equals("Punch In")) {
+
+                            txtPunchInTime.setVisibility(View.VISIBLE);
+                            txtPunchOutTime.setVisibility(View.VISIBLE);
+                            txtPunchInTime.setText(punchInTime);
+                            txtPunchOutTime.setText(punchOutTime);
+
+                            btnCheckIn.setBackgroundColor(getResources().getColor(R.color.btnBg));
+
+                            if(punchOutTime.equals("")){
+                                btnCheckOut.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                            }else{
+                                btnCheckOut.setBackgroundColor(getResources().getColor(R.color.btnBg));
+                            }
+                        }
+                        else {
+                            txtPunchInTime.setVisibility(View.GONE);
+                            txtPunchOutTime.setVisibility(View.GONE);
+
+                            btnCheckOut.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                            btnCheckIn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                        }
+                    }
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
     }
 
 
@@ -362,27 +417,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         protected void onPostExecute(Void res) {
             if (responseResultPunchIn.equals("No Network Found")) {
                 progressDialog.dismiss();
-                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Result");
-                builder.setMessage("Unable To Punch In. Please Try Again Later.");
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface alert, int which) {
-                        // TODO Auto-generated method stub
-                        //Do something
-                        alert.dismiss();
-                    }
-                });
-                android.support.v7.app.AlertDialog alert1 = builder.create();
-                alert1.show();
-            } else {
-
+                title="Response";
+                dialogFor ="APIError";
+                msg = "Unable To Punch In. Please Try Again Later.";
+                ShowConfirmationDialog(dialogFor,msg,title);
+            }
+            else {
                 progressDialog.dismiss();
                 sessionManager = new SessionManager(MainActivity.this);
                 try {
-//                    JSONObject obj = new JSONObject(responseResultLocation);
-
                     JSONArray jArr = new JSONArray(responseResultPunchIn);
                     for (int count = 0; count < jArr.length(); count++) {
                         JSONObject obj = jArr.getJSONObject(count);
@@ -391,48 +435,32 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         punchOutTime = obj.getString("PunchOut");
                         punchInMsg = obj.getString("msg");
 
-
                         if (punchInMsg.equals("Punch In Successfully.")) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                            builder.setMessage("You Have Punched In Successfully at "+punchInTime+"");
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface alert, int which) {
-                                    // TODO Auto-generated method stub
-                                    //Do something
-                                    alert.dismiss();
-                                }
-                            });
-                            AlertDialog alert1 = builder.create();
-                            alert1.show();
+                            dialogFor ="PunchInSuccessFull";
+                            msg = "You Have Punched In Successfully at "+punchInTime+".";
+                            ShowConfirmationDialog(dialogFor,msg,title);
                         }
                         else if (punchInMsg.equals("Punch In Already Exist.")) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                            builder.setMessage("You Have Already Punched In at "+punchInTime+"");
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface alert, int which) {
-                                    // TODO Auto-generated method stub
-                                    //Do something
-                                    alert.dismiss();
-                                }
-                            });
-                            AlertDialog alert1 = builder.create();
-                            alert1.show();
+                            dialogFor ="PunchInSuccessFull";
+                            msg = "You Have Already Punched In at "+punchInTime+".";
+                            ShowConfirmationDialog(dialogFor,msg,title);
                         }
                         txtPunchInTime.setVisibility(View.VISIBLE);
                         txtPunchInTime.setText(punchInTime);
                         btnCheckIn.setBackgroundColor(getResources().getColor(R.color.btnBg));
                         sessionManager.SetCheckinId(attendanceId, punchInTime, punchOutTime);
+
+                        if(!punchOutTime.equals("")){
+                            txtPunchOutTime.setVisibility(View.VISIBLE);
+                            txtPunchOutTime.setText(punchOutTime);
+                            btnCheckOut.setBackgroundColor(getResources().getColor(R.color.btnBg));
+                            sessionManager.SetCheckinId(attendanceId, punchInTime, punchOutTime);
+                        }
                     }
                     txtPunchOutTime.setText(punchInTime);
                     txtPunchOutTime.setText(punchOutTime);
                 } catch (JSONException ex) {
                     ex.printStackTrace();
-//                    attendanceId="1";
-//                    sessionManager.SetCheckinId(attendanceId);
                 }
 
             }
@@ -450,30 +478,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         @Override
         protected void onPostExecute(Void res) {
-            if (responseResultPunchIn.equals("No Network Found")) {
+            if (responseResultPunchOut.equals("No Network Found")) {
                 progressDialog.dismiss();
-                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Result");
-                builder.setMessage("Unable To Punch Out. Please Try Again Later.");
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface alert, int which) {
-                        // TODO Auto-generated method stub
-                        //Do something
-                        alert.dismiss();
-                    }
-                });
-                android.support.v7.app.AlertDialog alert1 = builder.create();
-                alert1.show();
-            } else {
+                title="Response";
+                dialogFor ="APIError";
+                msg = "Unable To Punch Out. Please Try Again Later.";
+                ShowConfirmationDialog(dialogFor,msg,title);
+
+            }
+            else {
 
                 progressDialog.dismiss();
                 sessionManager = new SessionManager(MainActivity.this);
                 try {
 //                    JSONObject obj = new JSONObject(responseResultLocation);
 
-                    JSONArray jArr = new JSONArray(responseResultPunchIn);
+                    JSONArray jArr = new JSONArray(responseResultPunchOut);
                     for (int count = 0; count < jArr.length(); count++) {
                         JSONObject obj = jArr.getJSONObject(count);
                         attendanceId = obj.getString("AttendanceID");
@@ -482,48 +503,35 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         punchOutMsg = obj.getString("msg");
 
                         if (punchOutMsg.equals("Punch Out Successfully.")) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                            builder.setMessage("You Have Punched Out Successfully at "+punchOutTime+"");
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
-                                @Override
-                                public void onClick(DialogInterface alert, int which) {
-                                    // TODO Auto-generated method stub
-                                    //Do something
-                                    alert.dismiss();
-                                }
-                            });
-                            AlertDialog alert1 = builder.create();
-                            alert1.show();
+                            dialogFor ="PunchOutSuccessFull";
+                            msg = "You Have Punched Out Successfully at "+punchOutTime+".";
+                            ShowConfirmationDialog(dialogFor,msg,title);
+
                         }
 //                        else if (punchOutMsg.equals("Punch In Already Exist.")) {
-//                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//                            builder.setMessage("You Have Already Punched In Successfully at "+punchInTime+"");
-//                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//
-//                                @Override
-//                                public void onClick(DialogInterface alert, int which) {
-//                                    // TODO Auto-generated method stub
-//                                    //Do something
-//                                    alert.dismiss();
-//                                }
-//                            });
-//                            AlertDialog alert1 = builder.create();
-//                            alert1.show();
+//                            dialogFor ="PunchOutSuccessFull";
+//                            msg = "You Have Already Punched Out at "+punchOutTime+".";
+//                            ShowConfirmationDialog(dialogFor,msg,title);
 //                        }
                         txtPunchOutTime.setVisibility(View.VISIBLE);
                         txtPunchOutTime.setText(punchOutTime);
                         btnCheckOut.setBackgroundColor(getResources().getColor(R.color.btnBg));
                         sessionManager.SetCheckinId(attendanceId, punchInTime, punchOutTime);
+
+                        if(!punchInTime.equals("")){
+                            txtPunchInTime.setVisibility(View.VISIBLE);
+                            txtPunchInTime.setText(punchInTime);
+                            btnCheckIn.setBackgroundColor(getResources().getColor(R.color.btnBg));
+                            sessionManager.SetCheckinId(attendanceId, punchInTime, punchOutTime);
+                        }
                     }
                 } catch (JSONException ex) {
                     ex.printStackTrace();
                 }
-
             }
         }
     }
-
 
     public class UserLocationWebService extends AsyncTask<String, Void, Void> {
 

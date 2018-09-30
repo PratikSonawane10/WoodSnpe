@@ -60,6 +60,11 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:15.0.1'
     implementation 'com.github.javiersantos:MaterialStyledDialogs:2.1'
 
+    implementation 'com.sangcomz:FishBun:0.8.6'
+    implementation 'id.zelory:compressor:2.1.0'
+    implementation 'com.github.yalantis:ucrop:2.2.2'
+    implementation 'com.uncopt:android.justified:1.0'
+
     implementation 'id.zelory:compressor:2.1.0'
     implementation 'com.github.yalantis:ucrop:2.2.2'
 
